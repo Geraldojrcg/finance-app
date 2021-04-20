@@ -49,7 +49,7 @@ async function makeScrap() {
     await page.goto(link);
     const article = await extractAticleData(page);
 
-    const dbArticle = await prisma.article.findUnique({
+    const dbArticle = await prisma.article.findFirst({
       where: {
         title: article.title,
       },
@@ -65,7 +65,8 @@ async function makeScrap() {
   await browser.close();
 }
 
-cron.schedule("* * */23 * *", async () => {
-  console.log("Runing scrap every 23h");
+const job = cron.schedule("*/10 * * * *", async () => {
+  console.log("Runing scrap every 10min");
   await makeScrap();
 });
+job.start();

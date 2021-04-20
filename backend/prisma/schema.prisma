@@ -8,21 +8,31 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  email     String    @unique
-  name      String?
-  password  String
-  articles  Article[] @relation("UserAticles")
+  id          Int           @id @default(autoincrement())
+  createdAt   DateTime      @default(now())
+  email       String        @unique
+  name        String?
+  password    String
+  articles    UserArticles[]
 }
 
 model Article {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  title     String
-  body      String
-  image     String?
+  id          Int           @id @default(autoincrement())
+  createdAt   DateTime      @default(now())
+  title       String
+  body        String
+  image       String?
+  readed      Boolean       @default(false)
+  users       UserArticles[]
+}
+
+model UserArticles {
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  article   Article  @relation(fields: [articleId], references: [id])
+  articleId Int
   readed    Boolean  @default(false)
-  User      User?    @relation("UserAticles", fields: [userId], references: [id])
-  userId    Int?
+  createdAt DateTime @default(now())
+
+  @@id([userId, articleId])
 }
