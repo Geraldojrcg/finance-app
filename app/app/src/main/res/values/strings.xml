@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Finance App</string>
-    <string name="shared_pref_name">FinanceApp</string>
-    <string name="shared_pref_token"></string>
-    <string name="shared_pref_username"></string>
-    <string name="shared_pref_userid"></string>
+    <string name="shared_pref_name">shared_pref_FinanceApp</string>
+    <string name="shared_pref_token">shared_pref_token</string>
+    <string name="shared_pref_username">shared_pref_username</string>
+    <string name="shared_pref_userid">shared_pref_userid</string>
 </resources>
