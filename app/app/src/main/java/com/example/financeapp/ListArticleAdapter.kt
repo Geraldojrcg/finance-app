@@ -26,10 +26,12 @@ class ListArticleAdapter (private var context: Context, private var articles: Li
         }
 
         hoder.article_card_title.text = article.title
+        hoder.article_card_tag.visibility = if (article.readed) View.VISIBLE else View.INVISIBLE
+
         val image = hoder.article_card_image
 
         if (article.image.isEmpty()) {
-            image.setImageResource(R.mipmap.ic_launcher);
+            image.setImageResource(R.drawable.no_image_icon);
         } else{
             Picasso.get().load(article.image).into(image)
         }
@@ -37,7 +39,7 @@ class ListArticleAdapter (private var context: Context, private var articles: Li
         return row
     }
 
-    override fun getItem(position: Int): Any = articles[position]
+    override fun getItem(position: Int): Article = articles[position]
 
     override fun getItemId(position: Int): Long = position.toLong()
 
@@ -47,6 +49,7 @@ class ListArticleAdapter (private var context: Context, private var articles: Li
         data class ViewHolder(val view: View) {
             val article_card_image: ImageView = view.findViewById(R.id.article_card_image)
             val article_card_title: TextView = view.findViewById(R.id.article_card_title)
+            val article_card_tag: TextView = view.findViewById(R.id.article_card_tag)
         }
     }
 }

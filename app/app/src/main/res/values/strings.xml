@@ -4,4 +4,5 @@
     <string name="shared_pref_token">shared_pref_token</string>
     <string name="shared_pref_username">shared_pref_username</string>
     <string name="shared_pref_userid">shared_pref_userid</string>
+    <string name="shared_pref_selected_article">shared_pref_selected_article</string>
 </resources>

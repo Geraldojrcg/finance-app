@@ -13,6 +13,7 @@ router.get("/articles", async (req, res) => {
     const articles = await prisma.article.findMany();
     res.send(articles);
   } catch (error) {
+    console.log(error);
     res.send(error);
   }
 });

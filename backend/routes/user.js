@@ -27,6 +27,7 @@ router.post("/users/register", async (req, res) => {
       user,
     });
   } catch (error) {
+    console.log(error);
     res.send(error);
   }
 });
@@ -55,6 +56,7 @@ router.post("/users/login", async (req, res) => {
       user,
     });
   } catch (error) {
+    console.log(error);
     res.send(error);
   }
 });
@@ -68,6 +70,7 @@ router.get("/users", auth, async (req, res) => {
     });
     res.send(users);
   } catch (error) {
+    console.log(error);
     res.send(error);
   }
 });
@@ -85,19 +88,33 @@ router.get("/users/:id", auth, async (req, res) => {
     });
     res.send(users);
   } catch (error) {
+    console.log(error);
     res.send(error);
   }
 });
 
 router.get("/users/:id/articles", auth, async (req, res) => {
   try {
-    const articles = await prisma.article.findMany({
+    const articles = await prisma.article.findMany();
+    const readedArticles = await prisma.userArticles.findMany({
       where: {
-        userId: req.params.id,
+        userId: parseInt(req.params.id),
       },
     });
-    res.send(articles);
+    const userArticles = articles.map((a) => ({ ...a, readed: false }));
+    readedArticles.forEach((article) => {
+      let found = userArticles.findIndex((a) => a.id === article.articleId);
+      if (found != -1) {
+        userArticles[found].readed = true;
+      }
+    });
+    userArticles.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+    res.send([
+      ...userArticles.filter((a) => !a.readed),
+      ...userArticles.filter((a) => a.readed),
+    ]);
   } catch (error) {
+    console.log(error);
     res.send(error);
   }
 });
@@ -111,6 +128,7 @@ router.post(
       const result = await prisma.$queryRaw`INSERT INTO UserArticles (userId, articleId, readed) VALUES (${user_id}, ${article_id}, true)`;
       res.send(result);
     } catch (error) {
+      console.log(error);
       res.send(error);
     }
   }

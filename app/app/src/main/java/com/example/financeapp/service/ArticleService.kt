@@ -2,12 +2,21 @@ package com.example.financeapp.service
 
 import com.example.financeapp.model.Article
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Headers
+import retrofit2.http.*
 
 interface ArticleService {
     @Headers("Content-Type: application/json")
-    @GET("articles")
-    fun listArticles(@Header("Authorization") token: String): Call<List<Article>>
+    @GET("users/{userId}/articles")
+    fun listArticles(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: Int
+    ): Call<List<Article>>
+
+    @Headers("Content-Type: application/json")
+    @POST("users/{userId}/articles/{articleId}/read")
+    fun readArticle(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: Int,
+        @Path("articleId") articleId: Int
+    ): Call<Any>
 }
