@@ -31,8 +31,8 @@ class RegisterActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.register_button).setOnClickListener {
             val name = findViewById<EditText>(R.id.register_name).text.toString()
-            val email = findViewById<EditText>(R.id.register_name).text.toString()
-            val password = findViewById<EditText>(R.id.register_name).text.toString()
+            val email = findViewById<EditText>(R.id.register_email).text.toString()
+            val password = findViewById<EditText>(R.id.register_password).text.toString()
 
             if(name != "" && email != "" && password != "") {
                 this.registerUser(name, email, password)
@@ -58,7 +58,7 @@ class RegisterActivity : AppCompatActivity() {
                         putInt(getString(R.string.shared_pref_userid), login.user.id)
                         commit()
                     }
-                    startActivity(Intent(this@RegisterActivity, HomeActivity::class.java))
+                    startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
                 }
             }
             override fun onFailure(call: Call<UserResponse>, t: Throwable?) {
